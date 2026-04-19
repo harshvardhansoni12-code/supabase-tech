@@ -8,7 +8,7 @@ function App() {
   const fetchSession = async () => {
     const currentSessions = await supabase.auth.getSession();
     console.log(currentSessions);
-    setSession(currentSessions.data);
+    setSession(currentSessions.data.session);
   };
 
   useEffect(() => {
@@ -20,7 +20,9 @@ function App() {
   };
   return (
     <div>
-      <button onClick={logout}>logout</button>
+      <button onClick={logout} className="bg-red-300 p-1">
+        logout
+      </button>
       {session ? <Todo /> : <Auth />}
     </div>
   );
