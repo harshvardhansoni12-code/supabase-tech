@@ -7,12 +7,14 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSignUp) {
-      const { error } = await supabase.auth.signUp(email, password);
+      console.log(email, password);
+      const { error } = await supabase.auth.signUp({ email, password });
       if (error) {
         console.log("error signing up", error.message);
         return;
       }
     } else {
+      console.log(email, password);
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,

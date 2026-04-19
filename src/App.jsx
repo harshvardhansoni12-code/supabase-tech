@@ -3,6 +3,7 @@ import "./App.css";
 import { supabase } from "./supabase-client";
 import Auth from "./Auth";
 import Todo from "./Todo";
+//
 function App() {
   const [session, setSession] = useState(null);
   const fetchSession = async () => {
@@ -13,6 +14,12 @@ function App() {
 
   useEffect(() => {
     fetchSession();
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+    return () => {
+      data.subscription.unsubscribe();
+    };
   }, []);
 
   const logout = async () => {
@@ -20,7 +27,10 @@ function App() {
   };
   return (
     <div>
-      <button onClick={logout} className="bg-red-300 p-1">
+      <button
+        onClick={() => logout()}
+        className="bg-red-300 p-1 hover:bg-red-400"
+      >
         logout
       </button>
       {session ? <Todo /> : <Auth />}
